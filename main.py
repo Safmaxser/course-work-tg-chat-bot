@@ -144,8 +144,9 @@ class OperationsDictionary:
         if flag_count:
             result = sql_query.count()
         else:
-            result = sql_query.limit(4).all()
+            result = sql_query.all()
             random.shuffle(result)
+            result = result[0:4]
         return result
 
     def add_word(self, user_id, target_word, translate):
