@@ -1,0 +1,25 @@
+[
+  {"target_word": "peace", "translate": "мир"},
+  {"target_word": "white", "translate": "белый"},
+  {"target_word": "black", "translate": "чёрный"},
+  {"target_word": "red", "translate": "красный"},
+  {"target_word": "turquoise", "translate": "бирюзовый"},
+  {"target_word": "orange", "translate": "оранжевый"},
+  {"target_word": "blue", "translate": "синий"},
+  {"target_word": "green", "translate": "зелёный"},
+  {"target_word": "gray", "translate": "серый"},
+  {"target_word": "pink", "translate": "розовый"},
+  {"target_word": "brown", "translate": "коричневый"},
+  {"target_word": "yellow", "translate": "жёлтый"},
+  {"target_word": "violet", "translate": "фиолетовый"},
+  {"target_word": "lilac", "translate": "лиловый"},
+  {"target_word": "i", "translate": "я"},
+  {"target_word": "you", "translate": "ты"},
+  {"target_word": "we", "translate": "мы"},
+  {"target_word": "he", "translate": "он"},
+  {"target_word": "she", "translate": "она"},
+  {"target_word": "they", "translate": "они"},
+  {"target_word": "this", "translate": "этот"},
+  {"target_word": "these", "translate": "эти"}
+]
+
