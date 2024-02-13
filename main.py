@@ -19,6 +19,10 @@ connect_name = os.getenv('DB_CONNECT_NAME')
 port = os.getenv('DB_PORT')
 database = os.getenv('DB_DATABASE')
 
+state_storage = StateMemoryStorage()
+bot = TeleBot(token_bot, state_storage=state_storage)
+buttons = []
+
 
 class OperationsDictionary:
     """
@@ -104,7 +108,7 @@ class OperationsDictionary:
             'dictionary': Dictionary,
             'words_user': WordsUser,
             'words_del': WordsDel
-        }[table_name]
+        }.get(table_name)
         number_records = self.session.query(model).count()
         return number_records
 
@@ -136,12 +140,12 @@ class OperationsDictionary:
             .filter((WordsDel.user_id.is_(None)) |
                     (WordsDel.user_id != user_id)) \
             .filter((WordsUser.user_id == 0) |
-                    (WordsUser.user_id == user_id)).all()
+                    (WordsUser.user_id == user_id))
         if flag_count:
-            result = len(sql_query)
+            result = sql_query.count()
         else:
-            result = sql_query
-            random.shuffle(sql_query)
+            result = sql_query.limit(4).all()
+            random.shuffle(result)
         return result
 
     def add_word(self, user_id, target_word, translate):
@@ -212,22 +216,6 @@ class OperationsDictionary:
         for sqls in sql_query:
             self.session.delete(sqls)
         self.session.commit()
-
-
-words_db = OperationsDictionary(drive, database, connect_name, port, user,
-                                password)
-words_db.connect()
-words_db.create_tables()
-words_db.open_session()
-if words_db.amount_data('dictionary') == 0:
-    words_db.load_data('tests_data.json')
-# words_db.get_data()
-
-
-state_storage = StateMemoryStorage()
-bot = TeleBot(token_bot, state_storage=state_storage)
-
-buttons = []
 
 
 class Command:
@@ -493,6 +481,15 @@ def message_reply(message):
         standby_mode(message)
 
 
-print('Бот запущен...')
-bot.infinity_polling(skip_pending=True)
-words_db.close_session()
+if __name__ == '__main__':
+    words_db = OperationsDictionary(drive, database, connect_name, port, user,
+                                    password)
+    words_db.connect()
+    words_db.create_tables()
+    words_db.open_session()
+    if words_db.amount_data('dictionary') == 0:
+        words_db.load_data('tests_data.json')
+    # words_db.get_data()
+    print('Бот запущен...')
+    bot.infinity_polling(skip_pending=True)
+    words_db.close_session()
